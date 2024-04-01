@@ -1,9 +1,26 @@
 import React from "react";
 import logo from "../assets/ClipCraze.png";
 import menuIcon from "../assets/menuIcon.png";
-import userIcon from "../assets/userIcon.png";
+import { YOUTUBE_POPULAR_VIDEOS_API } from "../constants";
+import { useDispatch } from "react-redux";
+import { loadData } from "../store/videoDataSlice";
+import { useNavigate } from "react-router-dom";
+import { titleSetter } from "../store/videoDataSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const homeHandler = async () => {
+    navigate("/");
+    const res = await fetch(
+      YOUTUBE_POPULAR_VIDEOS_API + process.env.REACT_APP_YOUTUBE_API_KEY
+    );
+    const json = await res.json();
+    dispatch(loadData(json.items));
+    dispatch(titleSetter("Popular Videos"));
+  };
+
   return (
     <div className="sticky top-0 flex shadow-lg bg-slate-100">
       <div className="w-[5%] my-auto">
@@ -14,17 +31,19 @@ const Header = () => {
         />
       </div>
       <div className="w-[15%]">
-        <img className="w-full min-w-10 h-15" src={logo} alt="image" />
+        <img
+          className="w-full min-w-10 h-15 cursor-pointer"
+          onClick={homeHandler}
+          src={logo}
+          alt="image"
+        />
       </div>
-      <div className="w-[75%] my-auto px-2">
+      <div className="w-[80%] my-auto px-6">
         <input
           type="text"
           placeholder=" Search"
           className="border border-black w-full"
         />
-      </div>
-      <div className="w-[5%] my-auto px-2">
-        <img className="w-full min-w-5 h-10  p-1" src={userIcon} alt="image" />
       </div>
     </div>
   );
