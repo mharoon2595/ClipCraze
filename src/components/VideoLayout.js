@@ -1,28 +1,16 @@
-import React, { useEffect, useState } from "react";
 import { YOUTUBE_POPULAR_VIDEOS_API } from "../constants";
 import VideoCard from "./VideoCard";
 import { useDispatch, useSelector } from "react-redux";
 import { loadData } from "../store/videoDataSlice";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
 
 const VideoLayout = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const data = useSelector((state) => state.videoData.data.items);
   const title = useSelector((state) => state.videoData.data.home);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        YOUTUBE_POPULAR_VIDEOS_API + process.env.REACT_APP_YOUTUBE_API_KEY
-      );
-      const json = await res.json();
-      dispatch(loadData(json.items));
-    };
-    if (!data.items) {
-      fetchData();
-    }
-  }, []);
+  useFetch(YOUTUBE_POPULAR_VIDEOS_API, data, loadData);
 
   const videoPlayer = (id) => {
     console.log("NAVIGATE BUDDY");

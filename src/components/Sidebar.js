@@ -6,24 +6,13 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { YOUTUBE_POPULAR_VIDEOS_API } from "../constants";
 import { loadCategory, loadData, titleSetter } from "../store/videoDataSlice";
+import useFetch from "../hooks/useFetch";
 
 const Sidebar = () => {
   const data = useSelector((state) => state.videoData.category);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        YOUTUBE_CATEGORIES + process.env.REACT_APP_YOUTUBE_API_KEY
-      );
-      const json = await res.json();
-
-      dispatch(loadCategory(json.items));
-    };
-    if (data.length === 0) {
-      fetchData();
-    }
-  }, []);
+  useFetch(YOUTUBE_CATEGORIES, data, loadCategory);
 
   const homeHandler = async () => {
     const res = await fetch(

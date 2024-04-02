@@ -7,3 +7,6 @@ export const YOUTUBE_CATEGORIES =
 export const YOUTUBE_SEARCH = (keyword) => {
   return `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${keyword}&type=video&key=`;
 };
+
+export const YOUTUBE_AUTOCOMPLETE = (keyword) =>
+  `http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${keyword}`;
