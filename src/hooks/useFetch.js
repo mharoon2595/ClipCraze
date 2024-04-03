@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { loadCategory, loadData, titleSetter } from "../store/videoDataSlice";
+import { YOUTUBE_POPULAR_VIDEOS_API } from "../constants";
 
 const useFetch = (fetchVideos, returnState, action) => {
   const dispatch = useDispatch();
@@ -15,6 +17,9 @@ const useFetch = (fetchVideos, returnState, action) => {
     };
     if (returnState.length === 0) {
       fetchData();
+      if (fetchVideos === YOUTUBE_POPULAR_VIDEOS_API) {
+        dispatch(titleSetter("Popular videos"));
+      }
     }
   }, []);
   return;

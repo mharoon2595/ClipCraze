@@ -8,7 +8,7 @@ const AppLayout = () => {
       <div className="col-span-2 p-2">
         <Sidebar />
       </div>
-      <div className="col-span-10 p-2">
+      <div className="col-span-10 pt-0 pl-2 pr-2 pb-2">
         <VideoLayout />
       </div>
     </div>

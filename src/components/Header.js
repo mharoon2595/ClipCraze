@@ -9,9 +9,10 @@ import { titleSetter } from "../store/videoDataSlice";
 import { YOUTUBE_SEARCH } from "../constants";
 import searchIcon from "../assets/searchIcon.png";
 import { YOUTUBE_AUTOCOMPLETE } from "../constants";
+import { UseSelector } from "react-redux";
 
 const Header = () => {
-  const [searchResults, setSearchResults] = useState();
+  const [searchResults, setSearchResults] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestionsFocus, setSuggestionsFocus] = useState(false);
@@ -37,6 +38,9 @@ const Header = () => {
     );
     const res = await fetchData.json();
     dispatch(loadData(res.items));
+    setSearchResults("");
+    dispatch(titleSetter(searchResults ? `Search results for: ${item}` : ""));
+    navigate("/");
   };
 
   const homeHandler = async () => {
@@ -55,7 +59,7 @@ const Header = () => {
   };
 
   return (
-    <div className="sticky top-0 flex shadow-lg bg-slate-100">
+    <div className="sticky top-0 z-20 flex shadow-lg bg-slate-100">
       <div className="w-[5%] my-auto">
         <img
           className="w-full min-w-5 h-5 sm:h-10 p-1"
@@ -78,6 +82,7 @@ const Header = () => {
             placeholder=" Search"
             className="border border-black w-[80%] h-7 p-2 rounded-l-md"
             onChange={inputHandler}
+            value={searchResults}
             onFocus={() => {
               console.log("input in focus bro!");
               if (suggestions.length !== 0) {
@@ -98,11 +103,11 @@ const Header = () => {
             />
           </button>
         </div>
-        {showSuggestions && suggestions !== undefined && (
+        {showSuggestions && searchResults && (
           <div className="relative w-[80%]">
-            <div className=" absolute w-[100%] ">
+            <div className=" absolute  w-[100%] ">
               <ul
-                className=" bg-slate-400 w-full rounded-md p-2"
+                className=" bg-slate-400  w-full rounded-md p-2"
                 onFocus={() => {
                   console.log("li in focus bro!");
                   setSuggestionsFocus(true);

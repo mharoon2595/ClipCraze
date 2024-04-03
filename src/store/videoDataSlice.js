@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const videoSlice = createSlice({
   name: "videoData",
   initialState: {
-    data: { items: [], home: "" },
+    data: { items: [], title: "" },
     category: [],
   },
   reducers: {
@@ -12,7 +12,7 @@ const videoSlice = createSlice({
       state.data.items = action.payload;
     },
     titleSetter(state, action) {
-      state.data.home = action.payload;
+      state.data.title = action.payload;
     },
     loadCategory(state, action) {
       state.category = action.payload;
